@@ -1,0 +1,24 @@
+<div class="container-fluid">
+	{% for item in field.value %}
+		<div class="row">
+			<div class="col-5">
+				<img src="{{ vich_uploader_asset(item.product, 'imgFile') }}" alt="{{ item.product.title }}" class="w-100">
+			</div>
+			<div class="col-7">
+                <ul>
+                    <li>Title of the product : <strong>{{item.product.title}}</strong></li>
+                    <li>Capacity : <strong>{{item.product.capacity}} cl</strong></li>
+                    {% if item.product.degree is not same as null %}
+                        <li>Degree : <strong>{{item.product.degree}} °</strong></li>
+                    {% endif %}
+                    <li>Brand : <strong>{{item.product.brand}} </strong></li>
+                    <li>Category : <strong>{{item.product.category}}</strong></li>
+                    <li>Quantity : <strong>{{item.quantity}}</strong></li>
+                    <li>Price : <strong>{{item.product.price}} &euro;</strong></li>
+                    <li>Total price : <strong>{{item.product.price * item.quantity}} &euro;</strong></li>
+
+                </ul>
+            </div>
+		</div>
+	{% endfor %}
+</div>
