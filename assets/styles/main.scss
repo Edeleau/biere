@@ -1,0 +1,9 @@
+@import "variables";
+
+body{
+    min-height: 100vh;
+}
+.containerPage{
+    position: relative;
+    min-height: calc(#{$containerPage} - #{$footerHeight} - #{$navHeight});
+}

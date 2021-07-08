@@ -4,12 +4,15 @@ namespace App\Entity;
 
 use DateTime;
 use DateTimeZone;
+use App\Entity\Order;
 use DateTimeImmutable;
+use App\Entity\Country;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -54,17 +57,17 @@ class User implements UserInterface
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="string", length=5, nullable=true)
      */
     private $cp;
 
     /**
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $city;
 
@@ -81,6 +84,7 @@ class User implements UserInterface
     /**
      * @Vich\UploadableField(mapping="user_images", fileNameProperty="img")
      * @var File
+     * @Ignore()
      */
     private $imgFile;
 
@@ -91,7 +95,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $country;
 
@@ -128,6 +132,9 @@ class User implements UserInterface
     public function setImgFile(?File $img = null)
     {
         $this->imgFile = $img;
+        if ($img) {
+            $this->updatedAt = new DateTime('now', new DateTimeZone('Europe/Paris'));
+        }
     }
 
     public function getEmail(): ?string
@@ -191,7 +198,7 @@ class User implements UserInterface
      */
     public function getPlainPassword()
     {
-        if( $this->plainPassword == null ) return "";
+        if ($this->plainPassword == null) return "";
         return $this->plainPassword;
     }
     /**

@@ -22,7 +22,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 {
 
     private $entityManager;
-    private $passwordEncoder;
     private $orderDetailsRepository;
 
     public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder,  OrderDetailsRepository $orderDetailsRepository)

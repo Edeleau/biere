@@ -1,0 +1,113 @@
+@import "variables";
+
+footer .select a {
+    font-size      : 1rem;
+    text-decoration: none;
+    color          : $platinium;
+    text-align     : center;
+    padding        : .5rem;
+    margin         : 0 1rem;
+
+    
+}
+
+footer .select a:hover {
+    text-decoration : none;
+    background-color: rgba(255, 255, 255, 0.39);
+}
+
+footer {
+    position        : relative;
+    padding         : 1rem;
+    background-color: $brown;    
+}
+
+footer a {
+    line-height: 2rem;
+}
+footer a:not([href]):not([class]) {
+    color: $platinium;
+    cursor: pointer;
+}
+footer a:not([href]):not([class]):hover {
+    color: $platinium;
+    cursor: pointer;
+}
+footer img {
+    float         : left;
+    margin-right  : .75rem;
+    height        : 2rem;
+    -webkit-filter: invert(1);
+    filter        : invert(1);
+}
+
+.borderLeft {
+    border-left: solid $platinium;
+}
+
+.newsletterIndexContainer {
+    height          : 0px;
+    width           : 100%;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+}
+
+.newsletterIndexContainer label,
+.newsletterIndexContainer p {
+    color    : var(--color2);
+    font-size: 1.5em;
+    padding  : 0em;
+}
+
+
+.newsletterIndexContainer input[type="email"] {
+    width        : 250px;
+    height       : 2.3rem;
+    box-sizing   : border-box;
+    border-radius: 7px;
+    border       : 0;
+    background   : rgba(211, 211, 211, 0.39);
+    font-size    : 17px;
+    transition   : all 0.5s;
+}
+
+.newsletterIndexSubmit {
+    width : auto;
+    height: 2.3rem;
+
+    box-sizing   : border-box;
+    border-radius: 7px;
+    border       : 0;
+    background   : $brown;
+    font-size    : 17px;
+    transition   : all 0.5s;
+    color        : $platinium;
+}
+
+
+.newsletterIndexSubmit:hover {
+    background: var(--color2);
+
+}
+
+.newsletterIndexContainer input::placeholder {
+    color      : $platinium;
+    font-size  : 0.9em;
+    text-align : center;
+    font-family: "Montserrat";
+}
+#newsletter{
+    display: none;
+}
+@media (max-width: 992px) {
+    .borderLeft {
+        border-left: none;
+        margin-top : .5rem;
+    }
+
+    .imgFooter {
+        justify-content: center;
+        margin-top     : 1rem;
+    }
+}

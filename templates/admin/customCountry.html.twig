@@ -1,4 +1,8 @@
 <div class="field-country">
+	{% if field.value.country is defined %}
 	{{field.value.country}}
 	<img src="/bundles/easyadmin/images/flags/{{field.value.countryCode}}.png" alt="{{field.value.countryCode}}" class="country-flag">
+	{% else %}
+		null
+	{% endif %}
 </div>

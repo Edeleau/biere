@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}
+{% endblock stylesheets %}
+
+
+{% block title %}Profile of
+	{{ user.username }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid profil">
+		<div class="row justify-content-between mt-5">
+			<div class="col-lg-6 text-center">
+				<div class="row pt-2 infoPerso">
+					<div class="col-6 mx-auto">
+						<img src="{{ vich_uploader_asset(user, 'imgFile') }}" alt="profil" class="mw-100  profilImg">
+					</div>
+					<div class="col-6 text-start">
+						<p>Nom :
+							<strong>{{user.name}}</strong>
+						</p>
+						<p>Prénom :
+							<strong>{{user.firstname}}</strong>
+						</p>
+						<p>E-mail :
+							<strong>{{user.email}}</strong>
+						</p>
+					</div>
+					<div class="col-12 text-start address">
+
+						<p>Adresse :
+							<strong>{{ user.address is same as null ? 'Non défini' :  user.address }}</strong>
+						</p>
+						<p>Ville :
+							<strong>{{( user.city is same as null)? 'Non défini' :  user.city }}</strong>
+						</p>
+						<p>Code postal :
+							<strong>{{( user.cp is same as null)? 'Non défini' :  user.cp }}</strong>
+						</p>
+						<p>Pays :
+							{% if user.country is not same as null %}
+								<strong>{{user.country.country}}</strong>
+								<img src="/bundles/easyadmin/images/flags/{{user.country.countryCode}}.png" alt="{{user.country.countryCode}}" class="country-flag">
+							{% else %}
+								<strong>Non défini</strong>
+							{% endif %}
+						</p>
+					</div>
+					{% if app.user.id is same as(user.id) %}
+						<div id="buttonEdit">
+							<button type="button" class="btn font-weight-bold">
+								<a class="" href="{{ path('user_edit', {'id': user.id}) }}">Modifier le profil</a>
+							</button>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-lg-6 p-0">
+				<div class="infoOrder h-100 ">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">Commande N&deg;</th>
+								<th scope="col">Prix</th>
+								<th scope="col">Date de commande</th>
+								<th scope="col">Status</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							{% for item in user.orders %}
+								<tr>
+									<th scope="row">{{item.id}}</th>
+									<td>{{item.price}}
+										&euro;</td>
+									<td>{{item.registrationDate|date("l ,  d F Y \\a\\t  H:i:s ")}}</td>
+									<td>{{item.status}}</td>
+									<td>
+										<a class=" action-detail" href="#">Voir la commande</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock body %}
+{% block javascripts %}
+	{{parent()}}
+
+{% endblock %}

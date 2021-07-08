@@ -59,7 +59,6 @@ class UserCrudController extends AbstractCrudController
 
         return [
             FormField::addPanel('User information')->setIcon('fa fa-user'),
-
             NumberField::new('id', 'Id')
                 ->onlyOnIndex(),
             EmailField::new('email'),
@@ -100,7 +99,7 @@ class UserCrudController extends AbstractCrudController
                 ->setIcon('fa fa-key')
                 ->onlyOnForms(),
             TextField::new('plainPassword')
-                ->setFormType(RepeatedType::class)                
+                ->setFormType(RepeatedType::class)
                 ->setFormTypeOptions([
                     'type' => PasswordType::class,
                     'first_options' => ['label' => 'New password'],
@@ -108,7 +107,7 @@ class UserCrudController extends AbstractCrudController
                 ])
                 ->setRequired(false)
                 ->onlyOnForms(),
-                
+
         ];
     }
     public function configureActions(Actions $actions): Actions

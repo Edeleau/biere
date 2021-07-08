@@ -1,0 +1,53 @@
+<div class="nav-container sticky-top" id="nav">
+	<nav class="navbar navbar-expand-md">
+		<a class="navbar-brand" href="{{path("home")}}">
+			<img src="{{ asset('build/images/logo.png') }}" id="logoNavBar" alt="Logo chopenbois">
+		</a>
+		<button class="navbar-toggler  custom-toggler" id="openNav" type="button">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mx-auto">
+				<li class="nav-item">
+					<a class="nav-link " href="{{path("home")}}">Accueil</a>
+				</li>
+				<li class="nav-item ecart">
+					<a class="nav-link" href="#">Pharmacie</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" href="#">Parapharmacie</a>
+				</li>
+			</ul>
+		</div>
+		<div id="iconNavBar" class="d-md-flex align-self-center justify-content-end ps-2 collapse">
+			<a class="align-self-center" href="#">
+				<i class="fas fa-shopping-cart px-2"></i>
+			</a>
+			<a class="align-self-center" href="{{ (app.user) ?  path('user_show', {'id': app.user.id} ) : path("app_login") }}">
+				<i class="fas fa-user  px-2"></i>
+			</a>
+		</div>
+
+	</nav>
+	<div id="searchBanner" class="row">
+		<div class="col-9 col-md-6 mx-auto">
+			<form id="searchForm" action="GET" class="col-12 my-auto d-flex align align-items-center position-relative">
+				<input type="text" class="form-control" name="search" id="searchInput" placeholder="Rechercher">
+				<button type="submit" name="searchSubmit" id="searchSubmit" class="position-absolute">
+					<i class="fas fa-search"></i>
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
+<div id="myNav" class="overlay">
+	<a href="javascript:void(0)" class="closebtn" id="closeNav">&times;</a>
+	<div class="overlay-content">
+		<a class="nav-link" href="#">Accueil</a>
+		<a class="nav-link" href="#">Pharmacie</a>
+		<a class="nav-link" href="#">Parapharmacie</a>
+		<a class="nav-link" href="#">Click & collect</a>
+		<a class="nav-link" href="#">Envoyer une ordonnance</a>
+	</div>
+</div>

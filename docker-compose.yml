@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+    db:
+        image: mariadb:10.5.8
+        environment:
+          MYSQL_DATABASE: beer
+          MYSQL_ROOT_PASSWORD: root
+    backend:
+        build: 
+          context: ./docker/backend
+          args:
+            UID: $UID
+            GID: $GID
+        volumes:
+            - ./:/var/www/html:cached
+            - ~/.composer/cache:/home/beer/.composer/cache
+            - /tmp
+            - ~/.ssh:/home/beer/.ssh
+            - ~/.ansible:/home/beer/.ansible
+            - ~/.ansible_galaxy:/home/beer/.ansible_galaxy
+        working_dir: /var/www/html
+    frontend:
+        image: node:15
+        command: yarn watch
+        volumes:
+            - ./:/var/www/html
+            - ~/.yarnrc:/.yarnrc
+            - ~/.cache/yarn:/.yarn
+        working_dir: /var/www/html
+    nginx:
+        image: nginx:1.19
+        volumes:
+            - ./:/var/www/html
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+        working_dir: /var/www/html
+        ports:
+            - 80:80
+    phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      ports:
+        - 8080:80
+      links:
+        - db

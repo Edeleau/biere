@@ -1,0 +1,43 @@
+@import "variables";
+
+.profil {
+    .profilImg {
+        width        : 100px;
+        max-height   : 100px;
+        border-radius: 50%;
+        object-fit   : cover;
+    }
+
+    .address {
+        padding-left: 125px;
+        padding-top : 80px;
+    }
+
+    .country-flag {
+        max-height: 20px;
+    }
+
+    .infoOrder , .infoPerso {
+        box-sizing: border-box;
+        width     : 100%;
+        border    : solid #5B6DCD 10px;
+        padding   : 5px;
+    }
+
+    @media screen and (max-width: 960px) {
+        .infoPerso{
+            width: auto;
+        }
+    }
+    .btn{
+        background-color: $brown;
+        a{
+            color: $platinium;
+            text-decoration: none;
+            &:hover{
+                color: $paradisePink;
+            }
+
+        }
+    }
+}
