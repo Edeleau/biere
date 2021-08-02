@@ -21,12 +21,12 @@
 			</div>
 		{% endif %}
 	</form>
-
+	
 	<div class="container my-5 {{ connexionForm ? 'right-panel-active' : '' }}" id="container">
 		<div class="form-container sign-up-container">
 			<form action="{{path("app_register")}}" method="post">
 
-				<h1 class="py-3">Create Account</h1>
+				<h1 class="py-3">Créer un compte</h1>
 				{{ form_start(registrationForm) }}
                     {{form_row(registrationForm.name , {'label':false, 'attr':{'placeholder':'Nom'}})}}
                     {{form_row(registrationForm.firstname , {'label':false, 'attr':{'placeholder':'Prenom'}})}}
@@ -39,30 +39,35 @@
 		</div>
 		<div class="form-container sign-in-container">
 			<form action="#" method="post">
-				<h1 class="py-3">Sign in</h1>
+				<h1 class="py-3">Connexion</h1>
 				<input type="email" value="{{ last_username }}" placeholder="Email" name="email" class="form-control" required autofocus/>
 				<input type="password" name="password" placeholder="Password" required/>
 				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-				<a href="#">Forgot your password?</a>
-				<button type="submit">Sign In</button>
+				<a href="#">Mot de passe oublié?</a>
+				<button type="submit">Connexion</button>
 			</form>
 		</div>
 		<div class="overlay-container">
 			<div class="overlay">
 				<div class="overlay-panel overlay-left">
-					<h1>Welcome Back!</h1>
-					<p>To keep connected with us please login with your personal info</p>
-					<button class="ghost" id="signIn">Sign In</button>
+					<h1>Bon retour !</h1>
+					<p>Connectez vous ici pour votre retour chez nous.</p>
+					<button class="ghost" id="signIn">Se connecter</button>
 				</div>
 				<div class="overlay-panel overlay-right">
-					<h1>Hello, Friend!</h1>
-					<p>Enter your personal details and start journey with us</p>
-					<button class="ghost" id="signUp" type="submit">Sign Up</button>
+					<h1>Salut l'ami !</h1>
+					<p>Créez votre compte et commencez votre voyage avec nous.</p>
+					<button class="ghost" id="signUp" type="submit">S'inscrire</button>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-warning">
+			{{ message }}
+		</div>
+		
+	{% endfor %}
 {% endblock %}
 {% block javascripts %}
 	{{parent()}}

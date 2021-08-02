@@ -12,11 +12,11 @@
 					<a class="nav-link " href="{{path("home")}}">Accueil</a>
 				</li>
 				<li class="nav-item ecart">
-					<a class="nav-link" href="#">Pharmacie</a>
+					<a class="nav-link" href="#">Bières</a>
 				</li>
 
 				<li class="nav-item">
-					<a class="nav-link" href="#">Parapharmacie</a>
+					<a class="nav-link" href="#">Goodies</a>
 				</li>
 			</ul>
 		</div>
@@ -24,7 +24,7 @@
 			<a class="align-self-center" href="#">
 				<i class="fas fa-shopping-cart px-2"></i>
 			</a>
-			<a class="align-self-center" href="{{ (app.user) ?  path('user_show', {'id': app.user.id} ) : path("app_login") }}">
+			<a class="align-self-center" href="{{ (app.user) ?  path('user_show') : path("app_login") }}">
 				<i class="fas fa-user  px-2"></i>
 			</a>
 		</div>
@@ -45,9 +45,7 @@
 	<a href="javascript:void(0)" class="closebtn" id="closeNav">&times;</a>
 	<div class="overlay-content">
 		<a class="nav-link" href="#">Accueil</a>
-		<a class="nav-link" href="#">Pharmacie</a>
-		<a class="nav-link" href="#">Parapharmacie</a>
-		<a class="nav-link" href="#">Click & collect</a>
-		<a class="nav-link" href="#">Envoyer une ordonnance</a>
+		<a class="nav-link" href="#">Bières</a>
+		<a class="nav-link" href="#">Goodies</a>
 	</div>
 </div>

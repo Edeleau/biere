@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id
@@ -371,5 +371,21 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->password
+        ]);
+    }
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->email,
+            $this->password
+        ) = unserialize($serialized);
     }
 }

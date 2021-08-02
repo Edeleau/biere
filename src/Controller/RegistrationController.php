@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use App\Security\UserAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,33 +19,43 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserAuthenticator $authenticator, AuthenticationUtils $authenticationUtils): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserAuthenticator $authenticator, AuthenticationUtils $authenticationUtils, UserRepository $userRepository): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
-            $user->setRoles(['ROLE_USER']);
+            $testMail = $userRepository->findOneBy(['email' => $form->getData()->getEmail()]);
+            if ($testMail && $testMail->getId() !== $user->getId()) {
+                $errors[] = 'Email déjà existant sur notre site.';
+            }
+            if (empty($errors)) {
+                // encode the plain password
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+                $user->setRoles(['ROLE_USER']);
+                // do anything else you need here, like send an email
+                $user->setImgFile(null);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
-            $user->setImgFile(null);
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+                return $guardHandler->authenticateUserAndHandleSuccess(
+                    $user,
+                    $request,
+                    $authenticator,
+                    'main' // firewall name in security.yaml
+                );
+            } else {
+                foreach ($errors as $error => $errorMsg) {
+                    $this->addFlash('error', $errorMsg);
+                }
+            }
         }
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();

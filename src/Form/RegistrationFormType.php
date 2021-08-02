@@ -22,11 +22,11 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new Email([
-                        'message' => '{{value}} is not valid.'
+                        'message' => "L'email n'est pas valide."
                     ]),
                     new Length([
                         'max' => 180,
-                        'maxMessage' => 'Your mail must have {{ limit }} characters max.',
+                        'maxMessage' => 'Votre e-mail doit avoir {{ limit }} caractères max.',
 
                     ]),
                 ]
@@ -34,13 +34,13 @@ class RegistrationFormType extends AbstractType
             ->add('password', PasswordType::class, [
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password.',
+                        'message' => 'Entrez un mot de passe.',
                     ]),
                     new PasswordStrength([
                         'minLength'       => 6,
-                        'tooShortMessage' => 'Your password should be at least 6 characters.',
+                        'tooShortMessage' => 'Votre mot de passe doit avoir 6 caractères minimum.',
                         'minStrength' => 3,
-                        'message'     => 'Your password should contain a characters upper and lower and a number.',
+                        'message'     => 'Votre mot de passe doit contenir une majuscule, une miniscule et un chiffre au minimum.',
                     ]),
                 ],
             ])

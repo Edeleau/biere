@@ -43,9 +43,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                 ['updateOrderDetails', 10],
                 ['updateOrder', 0],
             ],
-            AfterEntityDeletedEvent::class=>[
-                ['deleteOrderDetails',0]
-            ]
+            AfterEntityDeletedEvent::class => [
+                ['deleteOrderDetails', 0]
+            ],
         ];
     }
 
@@ -74,7 +74,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         if (!($entity instanceof OrderDetails)) {
             return;
         }
-        
+
 
         $this->setOrderDetails($entity);
         //Modifiication de prix total de la commande
@@ -87,7 +87,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         if (!($entity instanceof OrderDetails)) {
             return;
         }
-        
+
 
         //Modifiication de prix total de la commande
         $this->setOrder($entity->getOrdered());
@@ -103,7 +103,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         $this->setOrderDetails($entity);
         //Modifiication de prix total de la commande
         $this->setOrder($entity->getOrdered());
-
     }
 
 

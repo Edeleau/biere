@@ -25,7 +25,10 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 target: home
-
+            form_login:
+                login_path: app_login
+                default_target_path: user_show
+                always_use_default_target_path: true
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

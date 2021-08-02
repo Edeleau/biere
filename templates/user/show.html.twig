@@ -51,7 +51,7 @@
 					{% if app.user.id is same as(user.id) %}
 						<div id="buttonEdit">
 							<button type="button" class="btn font-weight-bold">
-								<a class="" href="{{ path('user_edit', {'id': user.id}) }}">Modifier le profil</a>
+								<a class="" href="{{ path('user_edit') }}">Modifier le profil</a>
 							</button>
 						</div>
 					{% endif %}

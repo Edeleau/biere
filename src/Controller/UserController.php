@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use App\Security\UserVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +18,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
+     * @Route("/profil", name="user_show")
      */
-    public function show(User $user): Response
+    public function show(UserRepository $userRepository): Response
     {
+        $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
         $this->denyAccessUnlessGranted(UserVoter::VIEW, $user);
 
         return $this->render('user/show.html.twig', [
@@ -29,20 +31,30 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/edit", name="user_edit")
      */
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, UserRepository $userRepository): Response
     {
+        $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
         $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+        $errors = [];
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $testMail = $userRepository->findOneBy(['email' => $form->getData()->getEmail()]);
+            if ($testMail && $testMail->getId() !== $user->getId()) {
+                $errors[] = 'Email déjà existant sur notre site.';
+            }
+            if (empty($errors)) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_show', [
-                'id' => $user->getId(),
-            ]);
+                return $this->redirectToRoute('user_show');
+            } else {
+                foreach ($errors as $error => $errorMsg) {
+                    $this->addFlash('error', $errorMsg);
+                }
+            }
         }
 
         return $this->render('user/edit.html.twig', [
