@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ 'Panier'|trans }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid" id="cart">
+		<div class="row">
+			<div class="col-lg-8 col-12 my-3">
+				<h3 class="title text-center py-3">PANIER</h3>
+				<div class="blockTotal px-4 ">
+					{% for product in products %}
+						{% include "cart/_product-cart.html.twig" with {'product': product } %}
+					{% endfor %}
+				</div>
+					<h3 class="title text-center py-3 mb-5">SOUS TOTAL: <span class="pl-3">{{prices.totalPrice}} &euro;</span></h3>
+
+			</div>
+			
+			<div class="col-lg-4 col-12 my-3">
+				<h3 class="title text-center py-3">TOTAL</h3>
+				<div class="blockTotal px-4">
+					<h2 class="text-center py-3">Détail du montant</h2>
+					<div class="row m-0 my-2 price">
+						<div class="col-6">Bières : </div>
+						<div class="col-6 text-right">{{prices.priceBeer}} &euro;</div>
+					</div>
+					<div class="row m-0 my-2 price">
+						<div class="col-6">Goodies : </div>
+						<div class="col-6 text-right">{{prices.priceGoodies}} &euro;</div>
+					</div>
+                    <div class="row mx-0  my-4 border-top">
+						<h2 class="col-6 mt-4">Total: </h2>
+						<h3 class="col-6 text-right mt-4">{{prices.totalPrice}} &euro;</h3>
+					</div>
+                    
+				</div>
+                <div class="text-center my-3">
+                    <a class="btn btn-brown w-100" href="{{path('saveCart')}}" role="button">Valider ma commande</a>
+                </div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock body %}

@@ -1,4 +1,7 @@
 {
+    "beberlei/doctrineextensions": {
+        "version": "v1.3.0"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
@@ -95,6 +98,12 @@
     },
     "jms/metadata": {
         "version": "2.5.0"
+    },
+    "knplabs/knp-components": {
+        "version": "v3.1.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.6.0"
     },
     "laminas/laminas-code": {
         "version": "4.0.0"
@@ -459,6 +468,9 @@
     },
     "symfony/string": {
         "version": "v5.2.4"
+    },
+    "symfony/templating": {
+        "version": "v5.2.12"
     },
     "symfony/test-pack": {
         "version": "v1.0.7"

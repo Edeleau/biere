@@ -1,0 +1,30 @@
+{{form_start(form, {attr: {class: 'js-filter-form' }}) }}
+{{form_row(form.q, {attr: {class: 'mb-3' }})}}
+{{form_row(form.brand, {attr: {class: 'mb-3' }})}}
+{{form_row(form.category, {attr: {class: 'mb-3' }})}}
+{{form_row(form.country, {attr: {class: 'mb-3' }})}}
+
+<h4>Contenance ( en cL )</h4>
+<div class="row">
+	<div class="col-md-6">
+		{{form_row(form.minCapacity, {attr: {class: 'mb-3' }})}}
+	</div>
+	<div class="col-md-6">
+		{{form_row(form.maxCapacity, {attr: {class: 'mb-3' }})}}
+	</div>
+	<div id="capacitySlider" class="mb-3"></div>
+
+</div>
+<h4>Prix</h4>
+<div class="row">
+	<div class="col-md-6">
+		{{form_row(form.minPrice, {attr: {class: 'mb-3' }})}}
+	</div>
+	<div class="col-md-6">
+		{{form_row(form.maxPrice, {attr: {class: 'mb-3' }})}}
+	</div>
+	<div id="priceSlider" class="mb-3" ></div>
+
+</div>
+
+{{form_end(form)}}

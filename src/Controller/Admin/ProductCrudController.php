@@ -38,6 +38,10 @@ class ProductCrudController extends AbstractCrudController
     {
         $rq = $this->countryRepository->findAll();
         $country = [];
+        $classification = [
+            'Bières' => Product::CLASSIFICATION_BEER,
+            'Goodies' => Product::CLASSIFICATION_GOODIES
+        ];
         foreach ($rq as $key => $entity) {
             // Pour le formulaire avec la relation il me faut l'entité
             $country += [$entity->getCountry() => $entity];
@@ -56,6 +60,8 @@ class ProductCrudController extends AbstractCrudController
                 'Black'   => 'black',
                 'Glass'   => 'glass'
             ]),
+            ChoiceField::new('classification')
+                ->setChoices($classification),
             NumberField::new('capacity'),
             NumberField::new('degree'),
             TextField::new('brand'),
@@ -70,6 +76,7 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('imgFile')
                 ->setFormType(VichImageType::class)
                 ->setLabel('Image')
+                ->setRequired(true)
                 ->onlyOnForms(),
             ImageField::new('img')
                 ->setBasePath('/img/product')

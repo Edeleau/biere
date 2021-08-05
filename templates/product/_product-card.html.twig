@@ -1,0 +1,41 @@
+<div class="card product-card col-12 col-xl-3 col-lg-4 col-md-6 col-sm-6 m-2 p-0" id="product-{{product.id}}">
+
+	<div class="product-card-thumbnail">
+		<a href="{{ path('product_show', {'id': product.id})}}">
+			<img src="{{ vich_uploader_asset(product, 'imgFile') }}" class="img-fluid product-card-img" alt="img" class=" px-3 pt-2">
+		</a>
+	</div>
+	<div class="beer-content px-3">
+		<h5 class="beer-name">
+			<a href="{{ path('product_show', {'id': product.id})}}">{{ product.title}}</a>
+		</h5>
+		{% if description is not defined %}
+			<div class="beer-description">
+				{% if product.description %}
+					{{product.description|length > 200 ? product.description|slice(0, 200) ~ '...' : product.description}}
+				{% else %}
+					<p>Description en fiche produit.</p>
+				{% endif %}
+			</div>
+		{% endif %}
+		<div class="beer-info pl-2 pt-4">
+			<table class="table table-bordered">
+				<tbody>
+					<tr class="text-center">
+						<td>{{product.capacity}}
+							cL</td>
+						<td>{{product.category}}</td>
+						<td>{{product.country.country}}</td>
+					</tr>
+					<tr>
+
+						<td colspan="3" class="text-center">{{product.brand}}</td>
+					</tr>
+
+				</tbody>
+			</table>
+			<div class="beer-price text-center mb-3">{{product.price}}
+				&euro;</div>
+		</div>
+	</div>
+</div>

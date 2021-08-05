@@ -17,6 +17,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Product
 {
+    const CLASSIFICATION_BEER = 'beer';
+    const CLASSIFICATION_GOODIES = 'goodies';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -87,6 +90,11 @@ class Product
      * @ORM\JoinColumn(nullable=false)
      */
     private $country;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $classification;
 
     public function __construct()
     {
@@ -249,6 +257,18 @@ class Product
     public function setCountry(?Country $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getClassification(): ?string
+    {
+        return $this->classification;
+    }
+
+    public function setClassification(string $classification): self
+    {
+        $this->classification = $classification;
 
         return $this;
     }

@@ -63,14 +63,14 @@ class OrderCrudController extends AbstractCrudController
                 ->hideOnForm(),
             ChoiceField::new('status')
                 ->setChoices([
-                    'Pending Payment' => 'pending',
-                    'Shipped'         => 'shipped',
-                    'Processing'      => 'processing',
-                    'On Hold'         => 'on-hold',
-                    'Completed'       => 'completed',
-                    'Cancelled'       => 'cancelled',
-                    'Refunded'        => 'refunded',
-                    'Failed'          => 'failed'
+                    Order::COMPLETED        => Order::COMPLETED,
+                    Order::FAILED           => Order::FAILED,
+                    Order::PAID             => Order::PAID,
+                    Order::PAYMENT_PENDING  => Order::PAYMENT_PENDING,
+                    Order::PROCESSING       => Order::PROCESSING,
+                    Order::REFOUNDED        => Order::REFOUNDED,
+                    Order::SEND             => Order::SEND,
+                    Order::CANCELLED        => Order::CANCELLED
                 ]),
             DateTimeField::new('registration_date')
                 ->setFormat('dd.MM.yyyy HH:mm:ss')

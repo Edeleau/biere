@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits
+{% endblock %}
+
+{% block body %}
+	<div class=" js-filter row">
+		<h1 class="text-center p-2 py-4 col-12">
+		{% if formShow %}
+			{{classification}}
+		{% else %}
+			Recherche pour "{{search}}"
+		{% endif %}
+			
+			</h1>
+		{% if formShow %}
+			<div class="form col-12 col-lg-3 ps-lg-5 pe-lg-0 px-5 pt-2">
+				{% include "product/_form.html.twig" with {form: form } only %}
+
+			</div>
+		{% endif %}
+		<div class="row justify-content-center js-filter-content col-12 {% if formShow %} col-lg-9 {% endif %} pt-lg-0 pt-5 m-0 " id="product-cards">
+			{% include "product/_product-cards.html.twig" %}
+		</div>
+		<div class="row justify-content-center js-filter-pagination col-12 {% if formShow %}col-lg-9{% endif %} ms-lg-auto">
+			{% include "product/_pagination.html.twig" %}
+		</div>
+	</div>
+{% endblock %}

@@ -40,7 +40,7 @@ class RegistrationController extends AbstractController
                 );
                 $user->setRoles(['ROLE_USER']);
                 // do anything else you need here, like send an email
-                $user->setImgFile(null);
+                $user->setImg('user-icon-default.png');
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();

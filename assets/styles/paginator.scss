@@ -1,0 +1,14 @@
+@import "variables";
+
+.paginator{
+    .page-item.active .page-link {
+        
+        color: #dee2e6;
+        background-color: $brown;
+        border-color:$brown;
+    }
+    .page-link {
+        color: $brown;
+        border: 1px solid $brown;
+    }
+}

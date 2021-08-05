@@ -6,4 +6,8 @@ body{
 .containerPage{
     position: relative;
     min-height: calc(#{$containerPage} - #{$footerHeight} - #{$navHeight});
+    background-color: $eggshell;
+}
+.noUi-connect {
+    background: $brown;
 }

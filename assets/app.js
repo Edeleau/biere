@@ -12,5 +12,10 @@ import 'bootstrap'
 import './styles/app.scss';
 import './header';
 import './footer';
+import './noUiSlider';
+import Filter from './modules/Filter.js'
+
+new Filter(document.querySelector('.js-filter'))
 // You can specify which plugins you need
 import { Tooltip, Toast, Popover } from 'bootstrap';
+

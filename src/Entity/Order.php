@@ -16,6 +16,16 @@ use App\Repository\OrderRepository;
  */
 class Order
 {
+
+    const PROCESSING      = 'Préparation en cours';
+    const COMPLETED       = 'Commande prête';
+    const PAID            = 'Payé';
+    const PAYMENT_PENDING = 'Paiement en attente';
+    const SEND            = 'Commande envoyé';
+    const REFOUNDED       = 'Renvoyé';
+    const FAILED          = 'Commande échoué';
+    const CANCELLED       = 'commande annulé';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

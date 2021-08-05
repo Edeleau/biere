@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ product.title|trans }}
+{% endblock %}
+
+{% block main_class %}home
+{% endblock %}
+{% form_theme form _self %}
+
+{# Modification du bouton submit #}
+{%- block submit_widget -%}
+{%- set type = type|default('submit') -%}
+
+{%- if label is empty -%}
+	{%- if label_format is not empty -%}
+		{% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+            }) %}
+	{%- else -%}
+		{% set label = name|humanize %}
+	{%- endif -%}
+{%- endif -%}
+<button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+	<i class="picto icon-basket"></i>Ajouter au panier</a>
+</button>
+{%- endblock submit_widget -%}
+{% block body %}
+	<div class="container-fluid" id="beer">
+		<div class="row ">
+			<div class="mx-auto col-lg-10 mt-5 col-12">
+				<div class="row justify-content-center">
+					<div class="col-lg-5 col-12 mr-lg-5 pe-lg-5 img-col">
+						<img src="{{ vich_uploader_asset(product, 'imgFile') }}" class="img-fluid" alt="{{product.title}}" class=" px-3 pt-2">
+					</div>
+					<div class="col-lg-5 col-12">
+						<h1 id="med-name" class="bold">{{product.title}}</h1>
+						<h3 id="brand" class="med-lvl2">
+							{% if product.brand is defined %}
+								{{product.brand}}
+							{% else %}
+								MARQUE non définie
+							{% endif %}
+						</h3>
+						<div id="med-description" class="mt-3">
+							{{product.description|raw}}
+						</div>
+						<div class="mt-4">Contenance : {{product.capacity}}cL</div>
+						{% if product.degree is not same as null %}
+							<div class="mt-4">Degré : {{product.degree}}°</div>
+						{% endif %}
+						{{form_start(form)}}
+						<div class="row addCart my-3">
+							<div class="col-6 my-2 dispo my-auto">
+								<i class="fas fa-circle dispo mx-2"></i>Disponible
+							</div>
+							<div class="col-6 my-2">
+								<div class="form-row">
+									<span class="mr-2 h-100 align-self-center">Quantité :</span>
+									{{form_widget(form.quantite, { 'attr':{'class': 'custom-select w-50'}})}}
+								</div>
+							</div>
+							<div class="col-6 my-2 price">{{product.price}} &euro;</div>
+							<div class="col-6 my-2">
+								{{form_row(form.add, { 'label': 'Ajouter au panier' }) }}
+							</div>
+						</div>
+						{{form_end(form)}}
+
+					</div>
+					<div class="col-12 justify-content-center row my-5" id="product-cards">
+						{% include "product/_product-cards.html.twig" with {'products': suggestion, 'description': description } only %}
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+{% endblock body %}
+{% block javascripts %}
+	{{parent()}}
+{% endblock javascripts %}

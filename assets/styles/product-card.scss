@@ -1,0 +1,21 @@
+@import "variables";
+
+#product-cards {
+    .product-card-thumbnail {
+        min-height: 250px;
+
+        img {
+            padding: 3rem 0;
+        }
+    }
+
+    .beer-content {
+        .beer-price {
+            font-weight: bold;
+            font-size  : 1.5rem;
+        }
+    }
+    .beer-description{
+        min-height: 120px;
+    }
+}

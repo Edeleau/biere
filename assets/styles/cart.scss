@@ -1,0 +1,44 @@
+@import "variables";
+
+
+#cart {
+    .blockTotal {
+        border: solid lighten($grey, 40%) 1px;
+    }
+    .border-top{
+        border-top-color:lighten($grey, 40%)!important;
+    }
+    .price{
+        font-size: 1.3em;
+    }
+    .btn-brown {
+        background-color: $brown;
+        color           : white;
+        font-size: 1.3em;
+        //padding: .3em 2em .3em 2em;
+        &:hover{
+            color: $paradisePink;
+        }
+    }
+    .fa-minus{
+        color: $paradisePink;
+    }
+    .fa-plus{
+        color: $brown;
+    }
+    .title{
+        color: white;
+        background-color: $brown;
+    }
+    .paradise{
+        color: $paradisePink;
+        font-size: 1.2em;
+    }
+    .price{
+        font-size: 1.5em;
+    }
+    .cross{
+        font-size: 1.5em;
+    }
+
+}
