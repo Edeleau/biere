@@ -8,9 +8,8 @@
 	{{ encore_entry_link_tags('login') }}
 {% endblock %}
 {% block body %}
-	<form method="post">
 		{% if error %}
-			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			<div class="alert alert-danger mt-3">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 		{% endif %}
 
 		{% if app.user %}
@@ -20,7 +19,6 @@
 				<a href="{{ path('app_logout') }}">Logout</a>
 			</div>
 		{% endif %}
-	</form>
 	
 	<div class="container my-5 {{ connexionForm ? 'right-panel-active' : '' }}" id="container">
 		<div class="form-container sign-up-container">

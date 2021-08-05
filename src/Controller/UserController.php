@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\OrderRepository;
 use App\Repository\UserRepository;
 use App\Security\UserVoter;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,5 +76,23 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     * @Route("/order/{order}", name="user_order" , requirements={"order":"\d+" })
+     */
+    public function order(Request $request, UserRepository $userRepository, OrderRepository $orderRepository, int $order): Response
+    {
+
+        $order = $orderRepository->findOneBy(['id' => $order]);
+        $user = $userRepository->findOneBy(['id' => $order->getUser()->getId()]);
+        $this->denyAccessUnlessGranted(UserVoter::VIEW, $user);
+        if ($order === null) {
+            return $this->redirectToRoute('user_show');
+        }
+
+        return $this->render('user/order.html.twig', [
+            'order' => $order,
+        ]);
     }
 }

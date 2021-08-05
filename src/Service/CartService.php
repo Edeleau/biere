@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class CartService
 {
+    const TVA = 20;
+
     protected ProductRepository $productRepository;
 
     public function __construct(ProductRepository $productRepository)
@@ -95,8 +97,24 @@ class CartService
                     break;
             }
         }
+        $priceBeerWithoutTVA = $this->getPriceWithoutTVA($priceBeer);
+        $priceGoodiesWithoutTVA = $this->getPriceWithoutTVA($priceGoodies);
         $totalPrice = $priceGoodies + $priceBeer;
-        return ['priceBeer' => $priceBeer, 'priceGoodies' => $priceGoodies, 'totalPrice' => $totalPrice];
+        $totalPriceWithoutTVA = $priceBeerWithoutTVA + $priceGoodiesWithoutTVA;
+
+        return [
+            'priceBeer' => $priceBeer,
+            'priceBeerWithoutTVA' => $priceBeerWithoutTVA,
+            'priceGoodies' => $priceGoodies,
+            'priceGoodiesWithoutTVA' => $priceGoodiesWithoutTVA,
+            'totalPrice' => $totalPrice,
+            'totalPriceWithoutTVA' => $totalPriceWithoutTVA,
+        ];
+    }
+    public function getPriceWithoutTVA($price)
+    {
+        $priceWithoutTVA = round(($price * 100) / (100 + self::TVA), 2);
+        return ($price - $priceWithoutTVA);
     }
 
     public function getProducts($cart)
