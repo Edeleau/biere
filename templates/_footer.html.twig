@@ -1,41 +1,15 @@
-<div class="newsletterIndexContainer text-center">
-    <form action="#" method="POST" class="my-auto" id="newsletter" >
-        <label for="newsletterIndex">Abonnez-vous à notre Newsletter</label>
-        <br>
-        <input id="newsletterIndex" type="email" name="emailNewsletter" placeholder="Mon adresse Email">
-        <input class="newsletterIndexSubmit" type="submit" value="Envoyer">
-    </form>
-</div>
 <footer>
     <div class="container-fluid ">
         <div class="row mr-0">
             <div class="col-12 d-lg-flex justify-content-center select p-0 m-0">
                 <div>
-                    <a href="#">Contact</a>
+                    <a href="{{path("contact")}}">Contact</a>
                 </div>
                 <div class="borderLeft">
-                    <a href="#">Accès</a>
+                    <a href="{{path("whoweare")}}">Qui sommes nous</a>
                 </div>
                 <div class="borderLeft">
-                    <a href="#">Plan du site</a>
-                </div>
-                <div class="borderLeft">
-                    <a href="#">Mentions légales</a>
-                </div>
-                <div class="borderLeft">
-                    <a href="#">CGV</a>
-                </div>
-                <div class="borderLeft">
-                    <a href="#">Recrutement</a>
-                </div>
-                <div class="borderLeft">
-                    <a href="#">Actualité</a>
-                </div>
-                <div class="borderLeft">
-                    <a href="#">Presse</a>
-                </div>
-                <div class="borderLeft">
-                    <a id="newsletterBtn">Newsletter</a>
+                    <a href="{{path("cgv")}}">Mentions légales & CGV</a>
                 </div>
             </div>
         </div>
