@@ -72,7 +72,9 @@
 								<th scope="col">Prix</th>
 								<th scope="col">Date de commande</th>
 								<th scope="col">Status</th>
-								<th scope="col">Action</th>
+								<th scope="col">Voir</th>
+								<th scope="col">PDF</th>
+
 							</tr>
 						</thead>
 						<tbody>
@@ -86,6 +88,9 @@
 									<td>{{item.status}}</td>
 									<td>
 										<a class=" action-detail" href="{{ path('user_order', {'order': item.id})}}">Voir la commande</a>
+									</td>
+									<td>
+										<a class=" action-detail" href="{{ path('pdf_generate', {'order': item.id})}}">Générer un pdf</a>
 									</td>
 								</tr>
 							{% endfor %}

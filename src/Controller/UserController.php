@@ -2,15 +2,19 @@
 
 namespace App\Controller;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Knp\Snappy\Pdf;
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\OrderRepository;
-use App\Repository\UserRepository;
 use App\Security\UserVoter;
+use App\Repository\UserRepository;
+use App\Repository\OrderRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -81,7 +85,7 @@ class UserController extends AbstractController
     /**
      * @Route("/order/{order}", name="user_order" , requirements={"order":"\d+" })
      */
-    public function order(Request $request, UserRepository $userRepository, OrderRepository $orderRepository, int $order): Response
+    public function order(UserRepository $userRepository, OrderRepository $orderRepository, int $order): Response
     {
 
         $order = $orderRepository->findOneBy(['id' => $order]);
@@ -93,6 +97,45 @@ class UserController extends AbstractController
 
         return $this->render('user/order.html.twig', [
             'order' => $order,
+        ]);
+    }
+
+    /**
+     * @Route("/order/generate/{order}", name="pdf_generate" , requirements={"order":"\d+" })
+     */
+    public function pdfAction(UserRepository $userRepository, OrderRepository $orderRepository, int $order)
+    {
+        $order = $orderRepository->findOneBy(['id' => $order]);
+        $user = $userRepository->findOneBy(['id' => $order->getUser()->getId()]);
+        $this->denyAccessUnlessGranted(UserVoter::VIEW, $user);
+        if ($order === null) {
+            return $this->redirectToRoute('user_show');
+        }
+
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('user/order_pdf.html.twig', [
+            'order' => $order,
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
         ]);
     }
 }

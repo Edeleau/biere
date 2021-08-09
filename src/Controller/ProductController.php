@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ProductController extends AbstractController
 {
@@ -72,7 +74,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/show/{id}", name="product_show")
      */
-    public function showProduct(ProductRepository $productRepository, $id): Response
+    public function showProduct(ProductRepository $productRepository, UrlGeneratorInterface $urlGenerator, $id): Response
     {
         $product = $productRepository->findOneBy(['id' => $id]);
         $suggestion = $productRepository->findSuggestion($product->getCategory(), $product->getId());
@@ -80,12 +82,14 @@ class ProductController extends AbstractController
             'action' => $this->generateUrl('addPanier'),
             'method' => 'POST',
         ]);
+        $url = $urlGenerator->generate('product_show', ['id' => $product->getId()], UrlGenerator::ABSOLUTE_URL);
 
         return $this->render('product/product_show.html.twig', [
             'product' => $product,
             'form' => $form->createView(),
             'suggestion' => $suggestion,
-            'description' => false
+            'description' => false,
+            'url' => $url
         ]);
     }
 }

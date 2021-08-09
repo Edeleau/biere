@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\OrderDetails;
+use App\Entity\PromoCode;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -71,6 +72,8 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Users', 'fas fa-users', User::class),
             MenuItem::linkToCrud('Order', 'fas fa-shopping-basket', Order::class),
             MenuItem::linkToCrud('OrderDetails', 'fas fa-list-alt', OrderDetails::class),
+            MenuItem::linkToCrud('Promo Code', 'fas fa-percent', PromoCode::class),
+
             MenuItem::linkToRoute('Exit admin', 'fa fa-door-open', 'home'),
         ];
 

@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-
+use App\Form\PromoType;
+use App\Repository\PromoCodeRepository;
 use App\Repository\UserRepository;
 use App\Service\CartService;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,16 +17,31 @@ class CartController extends AbstractController
     /**
      * @Route("/cart", name="cart")
      */
-    public function index(SessionInterface $session, CartService $cartService): Response
+    public function index(SessionInterface $session, CartService $cartService, Request $request, PromoCodeRepository $promoCodeRepository): Response
     {
+        $percentReduction = null;
         $cart = $session->get('cart', []);
+        $form = $this->createForm(PromoType::class, null, [
+            'action' => $this->generateUrl('cart'),
+            'method' => 'POST',
+        ]);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $code = $form->getData()->getCode();
+            $promoCode = $promoCodeRepository->findOneBy(['code' => $code]);
+            if ($promoCode !== null) {
+                $percentReduction = $promoCode->getReduction();
+            }
+            $session->set('promoCode', $code);
+        }
         $products = $cartService->getProducts($cart);
-        $prices = $cartService->getPrices($products);
+        $prices = $cartService->getPrices($products, $percentReduction);
 
         return $this->render('cart/index.html.twig', [
             'products' => $products,
-            'prices' => $prices
+            'prices' => $prices,
+            'form' => $form->createView(),
         ]);
     }
     /**
@@ -59,24 +75,34 @@ class CartController extends AbstractController
     /**
      * @Route("/cart/save", name="saveCart")
      */
-    public function saveCart(SessionInterface $session, CartService $cartService, UserRepository $userRepository): Response
+    public function saveCart(SessionInterface $session, CartService $cartService, UserRepository $userRepository, PromoCodeRepository $promoCodeRepository): Response
     {
+
         if ($this->getUser() === null) {
             return $this->redirectToRoute('app_login');
+        }
+        $code = $session->get('promoCode');
+        $promoCode = $promoCodeRepository->findOneBy(['code' => $code]);
+        if ($promoCode !== null) {
+            $percentReduction = $promoCode->getReduction();
         }
         $entityManager = $this->getDoctrine()->getManager();
         $cart = $session->get('cart', []);
         $products = $cartService->getProducts($cart);
-        $prices = $cartService->getPrices($products);
+        $prices = $cartService->getPrices($products, $percentReduction);
         $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
 
 
         if ($cart !== []) {
             $order = $cartService->setOrder($user, $prices);
             foreach ($products as $product) {
+                //dd($product['product']->getStock());
                 $orderDetails = $cartService->setOrderDetails($product, $order);
                 $order->addOrderDetail($orderDetails);
+                $product['product']->setStock($product['product']->getStock() - $product['quantite']);
                 $entityManager->persist($orderDetails);
+                $entityManager->persist($product['product']);
+                //$entityManager->flush();
             }
             $entityManager->persist($order);
             $entityManager->flush();

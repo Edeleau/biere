@@ -50,6 +50,10 @@
 						{% if product.degree is not same as null %}
 							<div class="mt-4">Degré : {{product.degree}}°</div>
 						{% endif %}
+
+						<iframe src="https://www.facebook.com/plugins/share_button.php?href={{url}}&layout=button&size=small&width=81&height=20&appId" width="81" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+						<a href="mailto:?subject=Regarde%20cette%20superbe%20bière&body=Hey%20!%0D%0AJ'ai%20trouvé%20cette%20superbe%20bière%20tu%20devrais%20y%20goûter%20!%0D%0AVoici%20le%20lien%20:%20{{url}}" class="btn btn-primary">Partager par mail</a>
+
 						{{form_start(form)}}
 						<div class="row addCart my-3">
 							<div class="col-6 my-2 dispo my-auto">

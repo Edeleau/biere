@@ -23,24 +23,42 @@
 				<div class="blockTotal px-4">
 					<h2 class="text-center py-3">Détail du montant</h2>
 					<div class="row m-0 my-2 price">
-						<div class="col-6">Bières : </div>
-						<div class="col-6 text-right">{{prices.priceBeer}} &euro;</div>
-						<div class="col-6 tva">Dont TVA : </div>
-						<div class="col-6 text-right tva">{{prices.priceBeerWithoutTVA}}&euro;</div>
+						<div class="col-8">Bières : </div>
+						<div class="col-4 text-right">{{prices.priceBeer}} &euro;</div>
+						<div class="col-8 tva">Dont TVA : </div>
+						<div class="col-4 text-right tva">{{prices.priceBeerTVA}}&euro;</div>
 					</div>
 					<div class="row m-0 my-2 price">
-						<div class="col-6">Goodies : </div>
-						<div class="col-6 text-right">{{prices.priceGoodies}} &euro;</div>
-						<div class="col-6 tva">Dont TVA : </div>
-						<div class="col-6 text-right tva">{{prices.priceGoodiesWithoutTVA}}&euro;</div>
+						<div class="col-8">Goodies : </div>
+						<div class="col-4 text-right">{{prices.priceGoodies}} &euro;</div>
+						<div class="col-8 tva">Dont TVA : </div>
+						<div class="col-4 text-right tva">{{prices.priceGoodiesTVA}}&euro;</div>
 					</div>
+					{% if prices.totalReduction is not same as null %}
+						<div class="row mx-0  my-4 border-top">
+							<h2 class="col-8 mt-4">Total avant réduction : </h2>
+							<h3 class="col-4 text-right mt-4">{{prices.totalPriceBeforeReduction}} &euro;</h3>
+							<div class="col-8 tva">Montant de la réduction : </div>
+							<div class="col-4 text-right tva">{{prices.totalReduction}}&euro;</div>
+						</div>
+					{% endif %}
                     <div class="row mx-0  my-4 border-top">
-						<h2 class="col-6 mt-4">Total: </h2>
-						<h3 class="col-6 text-right mt-4">{{prices.totalPrice}} &euro;</h3>
-						<div class="col-6 tva">Dont TVA : </div>
-						<div class="col-6 text-right tva">{{prices.totalPriceWithoutTVA}}&euro;</div>
+						<h2 class="col-8 mt-4">Total: </h2>
+						<h3 class="col-4 text-right mt-4">{{prices.totalPrice}} &euro;</h3>
+						<div class="col-8 tva">Dont TVA : </div>
+						<div class="col-4 text-right tva">{{prices.totalTVA}}&euro;</div>
 					</div>
-                    
+                    {{form_start(form)}}
+						<div class="row">
+							<div class="col-9">
+								{{form_row(form.code, {attr: {class: 'mb-3' }})}}
+							</div>
+							<div class="col-3">
+								{{form_row(form.Appliquer)}}	
+							</div>
+						</div>
+					{{form_end(form)}}
+
 				</div>
                 <div class="text-center my-3">
                     <a class="btn btn-brown w-100" href="{{path('saveCart')}}" role="button">Valider ma commande</a>

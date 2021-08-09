@@ -81,40 +81,63 @@ class CartService
 
         return $cart;
     }
-    public function getPrices($products)
+    public function getPrices($products, $percentReduction = null)
     {
+        $priceBeerAfterReduction = null;
+        $priceGoodiesAfterReduction = null;
+        $totalPriceBeforeReduction = null;
+        $totalReduction = null;
         $priceBeer = 0;
         $priceGoodies = 0;
         foreach ($products as $product) {
             switch ($product['product']->getClassification()) {
                 case Product::CLASSIFICATION_BEER:
                     $priceBeer += ($product['product']->getPrice() * $product['quantite']);
+                    if ($percentReduction !== null) {
+                        $priceBeerAfterReduction = $this->addReduction($priceBeer, $percentReduction);
+                    }
                     break;
                 case Product::CLASSIFICATION_GOODIES:
                     $priceGoodies += ($product['product']->getPrice() * $product['quantite']);
+                    if ($percentReduction !== null) {
+                        $priceGoodiesAfterReduction = $this->addReduction($priceGoodies, $percentReduction);
+                    }
                     break;
                 default:
                     break;
             }
         }
-        $priceBeerWithoutTVA = $this->getPriceWithoutTVA($priceBeer);
-        $priceGoodiesWithoutTVA = $this->getPriceWithoutTVA($priceGoodies);
-        $totalPrice = $priceGoodies + $priceBeer;
-        $totalPriceWithoutTVA = $priceBeerWithoutTVA + $priceGoodiesWithoutTVA;
+
+        $priceBeerTVA = $this->getTVA($priceBeer);
+        $priceGoodiesTVA = $this->getTVA($priceGoodies);
+
+        if ($percentReduction !== null) {
+            $totalPriceBeforeReduction = $priceGoodies + $priceBeer;
+            $totalPrice = round($priceGoodiesAfterReduction + $priceBeerAfterReduction, 2);
+            $totalReduction = round($totalPriceBeforeReduction - $totalPrice, 2);
+            $totalTVA = round($this->getTVA($priceGoodiesAfterReduction) + $this->getTVA($priceBeerAfterReduction), 2);
+        } else {
+            $totalPrice = $priceGoodies + $priceBeer;
+            $totalTVA = $priceBeerTVA + $priceGoodiesTVA;
+        }
+
+
 
         return [
             'priceBeer' => $priceBeer,
-            'priceBeerWithoutTVA' => $priceBeerWithoutTVA,
+            'priceBeerTVA' => $priceBeerTVA,
             'priceGoodies' => $priceGoodies,
-            'priceGoodiesWithoutTVA' => $priceGoodiesWithoutTVA,
+            'priceGoodiesTVA' => $priceGoodiesTVA,
             'totalPrice' => $totalPrice,
-            'totalPriceWithoutTVA' => $totalPriceWithoutTVA,
+            'totalTVA' => $totalTVA,
+            'totalPriceBeforeReduction' => $totalPriceBeforeReduction,
+            'totalReduction' => $totalReduction,
         ];
     }
-    public function getPriceWithoutTVA($price)
+    public function getTVA($price)
     {
-        $priceWithoutTVA = round(($price * 100) / (100 + self::TVA), 2);
-        return ($price - $priceWithoutTVA);
+        $TVA = round(($price * 100) / (100 + self::TVA), 2);
+        return ($price - $TVA);
     }
 
     public function getProducts($cart)
@@ -145,5 +168,11 @@ class CartService
         $orderDetails->setOrdered($order);
 
         return $orderDetails;
+    }
+
+    public function addReduction($price, $percentReduction)
+    {
+        $priceReduction = $price * (1 - ($percentReduction / 100));
+        return $priceReduction;
     }
 }

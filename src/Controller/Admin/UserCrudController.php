@@ -58,7 +58,8 @@ class UserCrudController extends AbstractCrudController
         }
 
         return [
-            FormField::addPanel('User information')->setIcon('fa fa-user'),
+            FormField::addPanel('User information')
+                ->setIcon('fa fa-user'),
             NumberField::new('id', 'Id')
                 ->onlyOnIndex(),
             EmailField::new('email'),
