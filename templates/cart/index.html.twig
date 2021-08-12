@@ -62,6 +62,11 @@
 				</div>
                 <div class="text-center my-3">
                     <a class="btn btn-brown w-100" href="{{path('saveCart')}}" role="button">Valider ma commande</a>
+					{% for message in app.flashes('success') %}
+						<div class="alert alert-success mt-3">
+							{{ message }}
+						</div>
+        			{% endfor %}
                 </div>
 			</div>
 		</div>

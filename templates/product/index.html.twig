@@ -8,8 +8,10 @@
 		<h1 class="text-center p-2 py-4 col-12">
 		{% if formShow %}
 			{{classification}}
-		{% else %}
+		{% elseif search is defined %}
 			Recherche pour "{{search}}"
+		{% elseif title is defined %}
+			{{title}}
 		{% endif %}
 			
 			</h1>

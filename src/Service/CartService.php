@@ -50,8 +50,9 @@ class CartService
         return $cart;
     }
 
-    public function updateProductCart(Request $request, Session $session)
+    public function updateProductCart(Request $request, Session $session, $productStock)
     {
+        $limit = $productStock < 20 ? $productStock : 20;
         $productId = intval($request->query->get('id'));
         $action = $request->query->get('action');
         $cart = $session->get('cart', []);
@@ -62,7 +63,7 @@ class CartService
 
             switch ($action) {
                 case 'plus':
-                    $cart[$productId]['quantite'] = (($qteCart + 1) > 20) ? 20 : $qteCart += 1;
+                    $cart[$productId]['quantite'] = (($qteCart + 1) > $limit) ? $limit : $qteCart += 1;
                     break;
                 case 'minus':
                     $cart[$productId]['quantite'] = (($qteCart - 1) < 0) ? 0 : $qteCart -= 1;

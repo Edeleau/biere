@@ -72,11 +72,34 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/bestSeller", name="bestSeller")
+     */
+    public function bestSeller(ProductRepository $productRepository, Request $request, PaginatorInterface $paginator): Response
+    {
+
+        $products = $productRepository->findPopProduct(10);
+        $title = 'Nos 10 produits phare du moment !';
+        $products = $paginator->paginate(
+            $products,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('product/index.html.twig', [
+            'products' => $products,
+            'formShow' => false,
+            'title' => $title
+        ]);
+    }
+    /**
      * @Route("/product/show/{id}", name="product_show")
      */
     public function showProduct(ProductRepository $productRepository, UrlGeneratorInterface $urlGenerator, $id): Response
     {
         $product = $productRepository->findOneBy(['id' => $id]);
+        if ($product->getStock() === 0) {
+            return $this->redirectToRoute('home');
+        }
         $suggestion = $productRepository->findSuggestion($product->getCategory(), $product->getId());
         $form = $this->createForm(ProductType::class, $product, [
             'action' => $this->generateUrl('addPanier'),

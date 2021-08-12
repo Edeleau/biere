@@ -1,0 +1,16 @@
+@import "variables";
+
+
+#home{
+    .text {
+        position: absolute;  
+        left: 50%;                        /* horizontal alignment */
+        top: 50%;                         /* vertical alignment */
+        transform: translate(-50%, -50%); /* precise centering; see link below */
+        color: white;
+        font-size: 4rem;
+    }
+    .box-preview{
+        background-color: $brown;
+    }
+}

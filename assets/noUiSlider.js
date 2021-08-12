@@ -9,11 +9,11 @@ if (sliderPrice) {
     const max = document.getElementById('maxPrice');
 
     const rangePrice = noUiSlider.create(sliderPrice, {
-        start: [0,Math.ceil(max.value ,10) ],
+        start: [0, Math.ceil(max.value, 10)],
         connect: true,
         range: {
             'min': 0,
-            'max': Math.ceil(max.value ,10),
+            'max': Math.ceil(max.value, 10),
         }
     });
 
@@ -25,20 +25,22 @@ if (sliderPrice) {
             max.value = Math.round(values[1]);
         }
     })
-    rangePrice.on('end', function(values, handle){
-        min.dispatchEvent(new Event ('change'));
+    rangePrice.on('change', function (values, handle) {
+        min.dispatchEvent(new Event('change'));
     })
+
+
 }
 if (sliderCapacity) {
     const min = document.getElementById('minCapacity');
     const max = document.getElementById('maxCapacity');
 
     const rangeCapacity = noUiSlider.create(sliderCapacity, {
-        start: [0,Math.ceil(max.value ,10)],
+        start: [0, Math.ceil(max.value, 10)],
         connect: true,
         range: {
             'min': 0,
-            'max': Math.ceil(max.value,10),
+            'max': Math.ceil(max.value, 10),
         }
     });
 
@@ -50,7 +52,8 @@ if (sliderCapacity) {
             max.value = Math.round(values[1]);
         }
     })
-    rangeCapacity.on('end', function(values, handle){
-        min.dispatchEvent(new Event ('change'));
+    rangeCapacity.on('change', function (values, handle) {
+        min.dispatchEvent(new Event('change'));
     })
+
 }

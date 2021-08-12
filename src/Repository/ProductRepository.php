@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Product;
 use App\Data\SearchData;
+use App\Entity\OrderDetails;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -31,6 +33,7 @@ class ProductRepository extends ServiceEntityRepository
             ->innerJoin('p.country', 'c')
             ->andWhere('p.classification = :classisication')
             ->setParameter('classisication', $classification)
+            ->andWhere('p.stock > 0')
             ->orderBy('c.country', 'ASC')
             ->groupBy('c.country')
             ->getQuery()
@@ -44,6 +47,7 @@ class ProductRepository extends ServiceEntityRepository
             ->select('p.brand')
             ->andWhere('p.classification = :classisication')
             ->setParameter('classisication', $classification)
+            ->andWhere('p.stock > 0')
             ->orderBy('p.brand', 'ASC')
             ->groupBy('p.brand')
             ->getQuery()
@@ -56,6 +60,7 @@ class ProductRepository extends ServiceEntityRepository
             ->select('MAX(p.price)')
             ->andWhere('p.classification = :classisication')
             ->setParameter('classisication', $classification)
+            ->andWhere('p.stock > 0')
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -65,6 +70,7 @@ class ProductRepository extends ServiceEntityRepository
             ->select('MIN(p.price)')
             ->andWhere('p.classification = :classisication')
             ->setParameter('classisication', $classification)
+            ->andWhere('p.stock > 0')
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -74,6 +80,7 @@ class ProductRepository extends ServiceEntityRepository
             ->select('MAX(p.capacity)')
             ->andWhere('p.classification = :classisication')
             ->setParameter('classisication', $classification)
+            ->andWhere('p.stock > 0')
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -83,6 +90,7 @@ class ProductRepository extends ServiceEntityRepository
             ->select('MIN(p.capacity)')
             ->andWhere('p.classification = :classisication')
             ->setParameter('classisication', $classification)
+            ->andWhere('p.stock > 0')
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -92,6 +100,7 @@ class ProductRepository extends ServiceEntityRepository
             ->select('p.category')
             ->andWhere('p.classification = :classisication')
             ->setParameter('classisication', $classification)
+            ->andWhere('p.stock > 0')
             ->orderBy('p.category', 'ASC')
             ->groupBy('p.category')
             ->getQuery()
@@ -118,8 +127,9 @@ class ProductRepository extends ServiceEntityRepository
             ->createQueryBuilder('p')
             ->select('p')
             ->innerJoin('p.country', 'c')
-            ->andWhere('p.classification = :classisication')
-            ->setParameter('classisication', $classification);
+            ->andWhere('p.classification = :classification')
+            ->setParameter('classification', $classification)
+            ->andWhere('p.stock > 0');
 
         if (!empty($search->q)) {
             $query = $query
@@ -209,7 +219,8 @@ class ProductRepository extends ServiceEntityRepository
                 ->orWhere('p.category LIKE :q')
                 ->setParameter('q', "%{$search}%")
                 ->orWhere('p.description LIKE :q')
-                ->setParameter('q', "%{$search}%");
+                ->setParameter('q', "%{$search}%")
+                ->andWhere('p.stock > 0');
         }
         return $query->getQuery()->getResult();
     }
@@ -225,7 +236,8 @@ class ProductRepository extends ServiceEntityRepository
             ->select('p')
             ->innerJoin('p.country', 'c')
             ->orderBy('RAND()')
-            ->setMaxResults(3);
+            ->setMaxResults(3)
+            ->andWhere('p.stock > 0');
 
         if (!empty($category)) {
             $query = $query
@@ -238,5 +250,33 @@ class ProductRepository extends ServiceEntityRepository
                 ->setParameter('id', $id);
         }
         return $query->getQuery()->getResult();
+    }
+
+    /**
+     * @return Product[] Returns an array of Product
+     */
+
+    public function findLastProduct()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.updatedAt', 'DESC')
+            ->andWhere('p.stock > 0')
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
+    }
+    /**
+     * @return Product[] Returns an array of Product
+     */
+    public function findPopProduct(int $nbrProduct)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin(OrderDetails::class, 'o', Join::WITH, 'o.product = p')
+            ->andWhere('p.stock > 0')
+            ->orderBy('COUNT(o.product)', 'DESC')
+            ->groupBy('o.product')
+            ->setMaxResults($nbrProduct)
+            ->getQuery()
+            ->getResult();
     }
 }

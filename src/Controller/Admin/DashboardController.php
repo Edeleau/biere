@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Contact;
 use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Product;
@@ -73,7 +74,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Order', 'fas fa-shopping-basket', Order::class),
             MenuItem::linkToCrud('OrderDetails', 'fas fa-list-alt', OrderDetails::class),
             MenuItem::linkToCrud('Promo Code', 'fas fa-percent', PromoCode::class),
-
+            MenuItem::linkToCrud('Contact', 'fas fa-envelope', Contact::class),
             MenuItem::linkToRoute('Exit admin', 'fa fa-door-open', 'home'),
         ];
 

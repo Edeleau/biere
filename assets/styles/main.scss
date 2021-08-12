@@ -13,3 +13,16 @@ body{
 .noUi-connect {
     background: $brown;
 }
+.btn-brown {
+    background-color: $brown;
+    color           : white;
+    font-size       : 1.3em;
+
+    //padding: .3em 2em .3em 2em;
+    &:hover {
+        color: $paradisePink;
+    }
+}
+.textMsg{
+    min-height: 250px!important;
+}

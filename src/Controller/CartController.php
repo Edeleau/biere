@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\PromoType;
+use App\Repository\ProductRepository;
 use App\Repository\PromoCodeRepository;
 use App\Repository\UserRepository;
 use App\Service\CartService;
@@ -63,9 +64,10 @@ class CartController extends AbstractController
      * @param SessionInterface $session
      * @return string
      */
-    public function updateCart(SessionInterface $session, CartService $cartService, Request $request)
+    public function updateCart(SessionInterface $session, CartService $cartService, Request $request, ProductRepository $productRepository)
     {
-        $cart = $cartService->updateProductCart($request, $session);
+        $productStock = $productRepository->findOneBy(['id' => intval($request->query->get('id'))])->getStock();
+        $cart = $cartService->updateProductCart($request, $session, $productStock);
 
         $session->set('cart', $cart);
 
@@ -85,6 +87,8 @@ class CartController extends AbstractController
         $promoCode = $promoCodeRepository->findOneBy(['code' => $code]);
         if ($promoCode !== null) {
             $percentReduction = $promoCode->getReduction();
+        } else {
+            $percentReduction = null;
         }
         $entityManager = $this->getDoctrine()->getManager();
         $cart = $session->get('cart', []);
@@ -107,6 +111,7 @@ class CartController extends AbstractController
             $entityManager->persist($order);
             $entityManager->flush();
             $session->remove('cart');
+            $this->addFlash('success', 'Commande validé !');
         }
 
 
