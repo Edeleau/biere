@@ -126,7 +126,7 @@ class ProductRepository extends ServiceEntityRepository
         $query = $this
             ->createQueryBuilder('p')
             ->select('p')
-            ->innerJoin('p.country', 'c')
+            ->leftJoin('p.country', 'c')
             ->andWhere('p.classification = :classification')
             ->setParameter('classification', $classification)
             ->andWhere('p.stock > 0');
@@ -208,7 +208,7 @@ class ProductRepository extends ServiceEntityRepository
         $query = $this
             ->createQueryBuilder('p')
             ->select('p')
-            ->innerJoin('p.country', 'c');
+            ->leftJoin('p.country', 'c');
 
         if (!empty($search)) {
             $query = $query
@@ -234,7 +234,7 @@ class ProductRepository extends ServiceEntityRepository
         $query = $this
             ->createQueryBuilder('p')
             ->select('p')
-            ->innerJoin('p.country', 'c')
+            ->leftJoin('p.country', 'c')
             ->orderBy('RAND()')
             ->setMaxResults(3)
             ->andWhere('p.stock > 0');

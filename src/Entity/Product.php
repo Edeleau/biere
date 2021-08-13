@@ -87,7 +87,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity=country::class, inversedBy="products")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $country;
 

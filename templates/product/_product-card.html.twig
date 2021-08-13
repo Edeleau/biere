@@ -25,7 +25,9 @@
 						<td>{{product.capacity}}
 							cL</td>
 						<td>{{product.category}}</td>
-						<td>{{product.country.country}}</td>
+						{% if product.country.country is defined %}
+							<td>{{product.country.country}}</td>
+						{% endif %}
 					</tr>
 					<tr>
 
