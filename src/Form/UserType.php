@@ -108,7 +108,9 @@ class UserType extends AbstractType
                 'class' => Country::class,
                 'choice_label' => 'country'
             ])
-            ->add('Update', SubmitType::class);
+            ->add('update', SubmitType::class, [
+                'label' => 'Sauvegarde'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

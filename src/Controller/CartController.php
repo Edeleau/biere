@@ -79,7 +79,7 @@ class CartController extends AbstractController
      */
     public function saveCart(SessionInterface $session, CartService $cartService, UserRepository $userRepository, PromoCodeRepository $promoCodeRepository): Response
     {
-
+        $errors = [];
         if ($this->getUser() === null) {
             return $this->redirectToRoute('app_login');
         }
@@ -96,8 +96,10 @@ class CartController extends AbstractController
         $prices = $cartService->getPrices($products, $percentReduction);
         $user = $userRepository->findOneBy(['id' => $this->getUser()->getId()]);
 
-
-        if ($cart !== []) {
+        if ($user->getAddress() === null || $user->getCp() === null || $user->getCity() === null) {
+            $errors[] = "Veuillez entrer votre adresse complète avant de sauvegarder votre panier.";
+        }
+        if (!empty($cart) && empty($errors)) {
             $order = $cartService->setOrder($user, $prices);
             foreach ($products as $product) {
                 //dd($product['product']->getStock());
@@ -113,7 +115,9 @@ class CartController extends AbstractController
             $session->remove('cart');
             $this->addFlash('success', 'Commande validé !');
         }
-
+        foreach ($errors as $error => $message) {
+            $this->addFlash('error', $message);
+        }
 
         return $this->redirectToRoute('cart');
     }

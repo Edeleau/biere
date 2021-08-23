@@ -1,0 +1,29 @@
+{{form_start(form, {attr: {class: 'js-filter-form position-relative' }}) }}
+<div class="rating">
+
+
+	<input id="stars-1" type="radio" name="stars" value="1">
+	<label for="stars-1">1 étoile</label>
+	<input id="stars-2" type="radio" name="stars" value="2">
+	<label for="stars-2">2 étoiles</label>
+	<input id="stars-3" type="radio" name="stars" value="3">
+	<label for="stars-3">3 étoiles</label>
+	<input id="stars-4" type="radio" name="stars" value="4">
+	<label for="stars-4">4 étoiles</label>
+	<input id="stars-5" type="radio" name="stars" value="5">
+	<label for="stars-5">5 étoiles</label>
+
+	<div class="stars">
+		<label for="stars-1" aria-label="1 star" title="1 star"></label>
+		<label for="stars-2" aria-label="2 stars" title="2 stars"></label>
+		<label for="stars-3" aria-label="3 stars" title="3 stars"></label>
+		<label for="stars-4" aria-label="4 stars" title="4 stars"></label>
+		<label for="stars-5" aria-label="5 stars" title="5 stars"></label>
+	</div>
+</div>
+
+{{form_row(form.message, {attr: {class: 'mb-3' }})}}
+{{form_row(form.product, {attr: {class: 'mb-3' }})}}
+{{form_row(form.envoyer, {attr: {class: 'mb-3 btn-brown' }})}}
+
+{{form_end(form)}}

@@ -72,7 +72,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Product', 'fas fa-beer', Product::class),
             MenuItem::linkToCrud('Users', 'fas fa-users', User::class),
             MenuItem::linkToCrud('Order', 'fas fa-shopping-basket', Order::class),
-            MenuItem::linkToCrud('OrderDetails', 'fas fa-list-alt', OrderDetails::class),
+            //MenuItem::linkToCrud('OrderDetails', 'fas fa-list-alt', OrderDetails::class),
             MenuItem::linkToCrud('Promo Code', 'fas fa-percent', PromoCode::class),
             MenuItem::linkToCrud('Contact', 'fas fa-envelope', Contact::class),
             MenuItem::linkToRoute('Exit admin', 'fa fa-door-open', 'home'),

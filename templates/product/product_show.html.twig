@@ -76,6 +76,25 @@
 					<div class="col-12 justify-content-center row my-5" id="product-cards">
 						{% include "product/_product-cards.html.twig" with {'products': suggestion, 'description': description } only %}
 					</div>
+					<div class="col-12 col-lg-10 ps-lg-5 pe-lg-0 px-5 pt-2">
+					<h2 class="text-center">Avis récents sur ce produit</h2>
+						{% if recentAvis|length is same as 0 %}
+							<h3>Aucun avis sur ce produit</h3>
+						{% endif %}
+						{% for avis in recentAvis %}
+							<div class="card my-1">
+								<div class="card-header">
+									{{avis.user.name}} {{avis.user.firstname}} a donné une note de : {{avis.note}}/5
+								</div>
+								<div class="card-body">
+									{{avis.message}}
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<div class="form col-12 col-lg-10 ps-lg-5 pe-lg-0 px-5 pt-2">
+						{% include "product/_formAvis.html.twig" with {form: formAvis } only %}
+					</div>
 				</div>
 			</div>
 		</div>

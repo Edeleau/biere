@@ -22,7 +22,13 @@
 		</div>
 		<div id="iconNavBar" class="d-md-flex align-self-center justify-content-end ps-2 collapse">
 			<a class="align-self-center" href="{{path("cart")}}">
-				<i class="fas fa-shopping-cart px-2"></i>
+				<i class="fas fa-shopping-cart position-relative mx-3">
+					{% if app.session.get('cart')|length > 0 %}
+					<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger fs-6">
+						{{app.session.get('cart')|length}}
+					</span>
+					{% endif %}
+				</i>
 			</a>
 			<a class="align-self-center" href="{{ (app.user) ?  path('user_show') : path("app_login") }}">
 				<i class="fas fa-user  px-2"></i>
@@ -30,6 +36,7 @@
 		</div>
 
 	</nav>
+
 	<div id="searchBanner" class="row">
 		<div class="col-9 col-md-6 mx-auto">
 			<form id="searchForm" action="{{path('search_product')}}" class="col-12 my-auto d-flex align align-items-center position-relative">
@@ -46,6 +53,8 @@
 	<div class="overlay-content">
 		<a class="nav-link" href="{{ path('home') }}">Accueil</a>
 		<a class="nav-link" href="{{ path('product', {'classification': 'beer'}) }}">Bières</a>
-		<a class="nav-link" href="{{ path('product', {'classification': 'goodies'}) }}">Goodies</a>
+		<a class="nav-link" href="{{ path('product', {'classification': 'goodies'}) }}">Goodies</a>	
+		<a class="nav-link" href="{{path("cart")}}">Panier</a>
+		<a class="nav-link" href="{{path("user_show")}}">Profil</a>
 	</div>
 </div>

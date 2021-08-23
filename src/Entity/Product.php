@@ -5,6 +5,8 @@ namespace App\Entity;
 use DateTime;
 use DateTimeZone;
 use App\Entity\Country;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\File\File;
@@ -96,9 +98,15 @@ class Product
      */
     private $classification;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="product", orphanRemoval=true)
+     */
+    private $avis;
+
     public function __construct()
     {
         $this->updatedAt = new DateTime();
+        $this->avis = new ArrayCollection();
     }
 
     public function getImg(): ?string
@@ -269,6 +277,36 @@ class Product
     public function setClassification(string $classification): self
     {
         $this->classification = $classification;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Avis[]
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis[] = $avi;
+            $avi->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getProduct() === $this) {
+                $avi->setProduct(null);
+            }
+        }
 
         return $this;
     }
